@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<body onload="myTimer = setInterval(myCounter, 100)">
+
+
+<textarea id="myTextarea" rows="27" cols="55" style="font-size: 18px" wrap="hard" spellcheck="false"></textarea>
+
+
+<div id="buttons" style="display:inline-block;">
+<div id="myDIV2" style="font-weight: bold">myDIV2</div><br><br>
+<button type="button" onclick="myFunction()">Try it</button><br>
+<button onclick="copy()">Copy Textarea2 to Textarea1</button><br>
+<input type="checkbox" id="check1250">1250 wanted?
+</div>
+    
+    
+
+<div id="counter" style="position: fixed; top: 0%; left: 46%;" onmouseover="bigImg(this)" onmouseout="normalImg(this)">
+<!--<button onClick="myTimer = setInterval(myCounter, 100)">Start counter!</button>-->
+<div id="demo3"  style="font-size: 50px">0:0.0</div>
+<button onClick="stopTimer()">Stop counter!</button><br><br>
+<div id="myDIV" style="font-family: calibri;font-size: 15px">wpm</div>  
+</div>
+
+    
+    
+
+<textarea id="myTextarea2" rows="27" cols="55" style="position: absolute; right: 8px; top: 8px; font-size: 18px" wrap="hard" spellcheck="false"></textarea>
+
+
+    
+<script>
+    
+function myFunction() {
+    document.getElementById("myTextarea2").value = "";
+    document.getElementById("myTextarea2").style.backgroundColor = "white";
+    x = document.getElementById("myTextarea").value.replace(/s+/g, "").split("");
+    if(/[a-zA-Z]/g.test(x[0])){myFunctionEng();}else{myFunctionChi();}
+}
+    
+
+function myFunctionChi() {
+
+
+    //regex formatting    
+    var str = document.getElementById("myTextarea").value;
+    var z2 = str.replace(/[0-9a-zA-Z]/g, " ").replace(/\s+/g, "");
+    var z = z2.split('');
+    document.getElementById("myTextarea2").value = z[0];
+    
+    //core function
+    for (var i = 1; i < z.length; i++){
+        if(document.getElementById("myTextarea2").value.length<100 || document.getElementById("check1250").checked == false) {
+            
+            document.getElementById("myTextarea2").value += z[i];
+            document.getElementById("myDIV2").innerHTML = "character count: " + document.getElementById("myTextarea2").value.length;
+        }
+    }
+}    
+    
+
+function myFunctionEng() {
+   
+
+    //regex formatting    
+    var str = document.getElementById("myTextarea").value;
+    var z3 = str.replace(/\n/g, " ");
+    var z2 = z3.replace(/[^A-Za-z!., ]/g, "");
+    var z = z2.replace(/\s+/g, " ").split(/ /g);
+    document.getElementById("myTextarea2").value = z[0];
+    noOfChar = z[0].length;
+
+    
+    //core function
+    for (var i = 1; i < z.length; i++){
+        
+        
+        
+        if(noOfChar<1250 || document.getElementById("check1250").checked == false) {
+            
+            document.getElementById("myTextarea2").value += " " + z[i];
+            noOfChar += z[i].length + 1;
+            document.getElementById("myDIV2").innerHTML = "character count: " + noOfChar;
+            
+            
+            
+            if(z[i].substring(z[i].length-1, z[i].length) == "." || z[i].substring(z[i].length-1, z[i].length) == "!"){
+            
+            document.getElementById("myTextarea2").value += " ";
+            noOfChar += 1;    
+            document.getElementById("myDIV2").innerHTML = "character count: " + noOfChar;
+            
+        }
+
+            
+        }
+    }
+
+  
+    
+}
+
+    
+    
+//copy to textarea1 function
+function copy() {
+  var copyText = document.getElementById("myTextarea2");
+  //copyText.select();
+  //document.execCommand("copy");
+  document.getElementById("myTextarea").value = document.getElementById("myTextarea2").value;
+  document.getElementById("myTextarea2").value = "";
+}
+    
+    
+    
+//counter    
+function stopTimer() {
+  //clearInterval(myTimer);
+  m = 0;
+  s = -5;
+  ms = -1;
+  document.getElementById("demo3").style.color = "Black";
+  document.getElementById("demo3").innerHTML = m + ":" + s + "." + ++ms;
+  document.getElementById("myTextarea2").style.backgroundColor = "white";
+  
+  //record st time
+  time = new Date();
+  document.getElementById("myDIV").innerHTML = time.getHours() + ":" + time.getMinutes() + "." + time.getSeconds();
+  
+}
+
+var m = 0;
+var s = 0;
+var ms = -1;
+var wpm;
+var time = newDate();
+var noOfChar = 0;
+    
+function myCounter() {
+	if(ms==9){ms=-1;s++;}
+    if(s==60){s=0;m++;}
+    if(m==4 && s==10){//document.getElementById("demo3").style.color = "CornflowerBlue";
+                      document.getElementById("myTextarea2").style.backgroundColor = "GreenYellow";}
+    if(m==5){
+        document.getElementById("demo3").style.color = "Red";
+        document.getElementById("myTextarea2").style.backgroundColor = "Tomato";
+        
+        if(ms==0 && s==0){
+        time = new Date();
+        document.getElementById("myDIV").innerHTML += "<br>" + time.getHours() + ":" + time.getMinutes() + "." + time.getSeconds();
+        }
+        
+    }
+  document.getElementById("demo3").innerHTML = m + ":" + s + "." + ++ms; 
+    
+//update wpm
+//pm = document.getElementById("myTextarea").value.length/(5*(m+s/60));
+//document.getElementById("myDIV").innerHTML = wpm.toFixed(2) + " wpm" ;
+} 
+//counter    
+    
+
+//mouse over event    
+function bigImg(x) {    //mouse over
+  document.getElementById("demo3").style.color = "black";
+}
+
+function normalImg(x) { //mouse out
+  document.getElementById("demo3").style.color = "white";
+}    
+    
+</script>    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</body>
+</html>
+
